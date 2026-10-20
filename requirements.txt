@@ -1,0 +1,27 @@
+# Versions pinned by the 36120 AT3 brief
+pandas==2.2.2
+jupyterlab==4.6.1
+scikit-learn==1.6.1
+matplotlib==3.11.0
+wandb==0.28.0
+lightgbm==4.6.0
+lime==0.2.0.1
+joblib==1.5.3
+xgboost==3.3.0
+optuna==4.9.0
+
+# Data collection from public crypto APIs
+requests
+
+# From the Cookiecutter Data Science template
+ipython
+notebook
+loguru
+python-dotenv
+ruff
+tqdm
+typer
+pytest
+
+# Installs the at3_crypto package from this repo in editable mode
+-e .
