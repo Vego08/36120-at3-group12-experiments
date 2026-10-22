@@ -1,0 +1,89 @@
+{
+  "target": "Trading Opportunity Rating (TOR)",
+  "target_description": "5-class rating of a cryptocurrency's Opportunity Score 7 days ahead, OS = 0.40*M + 0.30*T + 0.20*V - 0.10*R",
+  "algorithm": "LightGBM Classifier",
+  "forecast_horizon": 7,
+  "features": [
+    "Return20",
+    "RelativeVolume",
+    "Volatility20",
+    "MA5",
+    "MA20",
+    "MA_ratio",
+    "OS_t",
+    "OS_proj"
+  ],
+  "feature_importance": {
+    "OS_proj": 0.746,
+    "MA_ratio": 0.0712,
+    "Return20": 0.0508,
+    "Volatility20": 0.046,
+    "RelativeVolume": 0.0354,
+    "MA20": 0.0249,
+    "MA5": 0.0248,
+    "OS_t": 0.0009
+  },
+  "classification_labels": {
+    "0": "Strong Sell",
+    "1": "Sell",
+    "2": "Hold",
+    "3": "Buy",
+    "4": "Strong Buy"
+  },
+  "hyperparameters": {
+    "n_estimators": 400,
+    "learning_rate": 0.020140723906573243,
+    "num_leaves": 12,
+    "max_depth": 3,
+    "min_child_samples": 25,
+    "subsample": 0.507002679082405,
+    "colsample_bytree": 0.7116580386374931,
+    "reg_alpha": 7.5349332296701474,
+    "reg_lambda": 7.657416313739286,
+    "class_weight": null
+  },
+  "training_period": [
+    "2024-11-21",
+    "2026-06-25"
+  ],
+  "training_rows": 4656,
+  "outage_augmentation": {
+    "A down (Return20)": [
+      "Return20",
+      "OS_t"
+    ],
+    "B down (MA5, MA20)": [
+      "MA5",
+      "MA20",
+      "MA_ratio",
+      "OS_t"
+    ],
+    "C down (Volatility20)": [
+      "Volatility20",
+      "OS_t"
+    ],
+    "A, B and C down": [
+      "Return20",
+      "MA5",
+      "MA20",
+      "MA_ratio",
+      "Volatility20",
+      "OS_t"
+    ]
+  },
+  "test_metrics": {
+    "macro_f1": 0.4972,
+    "balanced_acc": 0.4672,
+    "accuracy": 0.6106,
+    "within_one": 0.9663,
+    "severe_error_rate": 0.0337,
+    "macro_f1_true_classes": 0.4972
+  },
+  "data_source": "Kraken public OHLC API, daily candles",
+  "created_utc": "2026-10-22T15:32:53+00:00",
+  "library_versions": {
+    "lightgbm": "4.6.0",
+    "scikit-learn": "1.6.1",
+    "pandas": "2.2.2"
+  }
+}
