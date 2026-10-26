@@ -1,61 +1,79 @@
-# 36120 AT3 Crypto Experiments
+# 36120 AT3: Cryptocurrency Financial Intelligence Platform, experimentation repository
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
+36120 Advanced Machine Learning Applications, Assessment 3, **Group 12**
 
-Experimentation repo for the 36120 AT3 Cryptocurrency Financial Intelligence Platform
+| Student | Name | Student ID | Target | Model | Notebook |
+|---|---|---|---|---|---|
+| A | _to fill_ | _to fill_ | Asset Performance Index (API) | XGBoost regression | _to fill_ |
+| B | _to fill_ | _to fill_ | Market Risk Index (MRI) | LightGBM regression | _to fill_ |
+| C | _to fill_ | _to fill_ | Trend Category (TC) | XGBoost classification | _to fill_ |
+| D | Vedang Gosavi | 26059271 | Trading Opportunity Rating (TOR) | LightGBM classification | `notebooks/36120_26SP_AT3_group12_26059271_experiment.ipynb` |
 
-## Project Organization
+Related repositories: Streamlit front-end and four FastAPI services (one per student), listed in the
+final report together with their deployment URLs.
 
-```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         at3_crypto and configuration for tools like black
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── at3_crypto   <- Source code for use in this project.
-    │
-    ├── __init__.py             <- Makes at3_crypto a Python module
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── features.py             <- Code to create features for modeling
-    │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
-    │
-    └── plots.py                <- Code to create visualizations
+## Project structure (Cookiecutter Data Science)
+
+at3_crypto/ shared Python package used by the notebooks and the APIs
+config.py project paths
+dataset.py Kraken OHLCV download, dated snapshots (python -m at3_crypto.dataset)
+features.py every engineered feature from the brief + TOR engineered features
+target.py TOR target (Opportunity Score, 5 classes, t+7)
+data/raw/ dated Kraken snapshots (the snapshot used for the results is committed)
+data/processed/ train/validation/test splits written by the notebooks (not committed)
+models/ final model artefacts, one folder per student and experiment
+notebooks/ one experiment notebook per student
+reports/figures/ figures saved by the notebooks
+requirements.txt pinned dependencies (versions required by the brief)
+requirements-lock.txt full environment used to produce the results
+
+
+## Setup
+
+Requires **Python 3.12** (developed with 3.12.3) and git.
+
+```bash
+git clone <this repository URL>
+cd 36120-at3-group12-experiments
+python -m venv .venv
+# Windows PowerShell: .venv\Scripts\Activate.ps1      macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt        # also installs at3_crypto in editable mode
 ```
 
---------
+On Windows, if activation is blocked: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
 
+## Data
+
+Data is collected dynamically from the public Kraken OHLC API (daily candles, no API key required):
+`https://api.kraken.com/0/public/OHLC?pair=XBTUSD&interval=1440`.
+Kraken only serves the latest 720 days, so each download is saved as a dated snapshot in `data/raw/`.
+The notebooks load the latest snapshot; set `REFRESH_DATA = True` in section C.1, or run
+
+```bash
+python -m at3_crypto.dataset
+```
+
+to download a new one. The snapshot used for the reported results (`kraken_ohlc_daily_20261022.csv`)
+is committed, so results can be reproduced exactly.
+
+## Running the notebooks
+
+```bash
+jupyter lab notebooks
+```
+
+Select the `.venv` kernel and run all cells from the top. Student D's notebook takes about 5 to 10
+minutes in total (Optuna runs 60 trials). All models use `n_jobs=1` for reproducibility on Windows.
+
+## Model artefacts
+
+| Student | Folder | Contents |
+|---|---|---|
+| D | `models/26059271/experiment_1/` | `tor_lgbm.joblib` (LightGBM model), `tor_metadata.json` (features, importance, labels, hyperparameters, test metrics) |
+| D | `models/tor_label_map.json` | fixed class id to label mapping |
+
+## Collaboration workflow
+
+Each student works on their own branch (`student-a` ... `student-d`). The best experiment is merged
+into `main` through a pull request approved by another student; `main` is protected against direct
+pushes.

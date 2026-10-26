@@ -25,3 +25,6 @@ pytest
 
 # Installs the at3_crypto package from this repo in editable mode
 -e .
+
+# Used by the UTS notebook template
+utstd
