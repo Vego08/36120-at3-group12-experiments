@@ -80,7 +80,7 @@
     "macro_f1_true_classes": 0.4972
   },
   "data_source": "Kraken public OHLC API, daily candles",
-  "created_utc": "2026-10-22T15:32:53+00:00",
+  "created_utc": "2026-10-24T03:12:20+00:00",
   "library_versions": {
     "lightgbm": "4.6.0",
     "scikit-learn": "1.6.1",
