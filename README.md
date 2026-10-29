@@ -5,7 +5,7 @@
 | Student | Name | Student ID | Target | Model | Notebook |
 |---|---|---|---|---|---|
 | A | _to fill_ | _to fill_ | Asset Performance Index (API) | XGBoost regression | _to fill_ |
-| B | _to fill_ | _to fill_ | Market Risk Index (MRI) | LightGBM regression | _to fill_ |
+| B | Prachi Pramod Dhimate | 26060133 | Market Risk Index (MRI) | LightGBM regression | `notebooks/36120_26SP_AT3_group_12_student_26060133_experiment.ipynb` |
 | C | _to fill_ | _to fill_ | Trend Category (TC) | XGBoost classification | _to fill_ |
 | D | Vedang Gosavi | 26059271 | Trading Opportunity Rating (TOR) | LightGBM classification | `notebooks/36120_26SP_AT3_group12_26059271_experiment.ipynb` |
 
@@ -56,6 +56,35 @@ python -m at3_crypto.dataset
 to download a new one. The snapshot used for the reported results (`kraken_ohlc_daily_20261022.csv`)
 is committed, so results can be reproduced exactly.
 
+
+### Student B — MRI Experiment Dataset
+
+Student B's Market Risk Index (MRI) regression experiment uses the historical cryptocurrency dataset provided with the AT3 assignment (CoinMarketCap data), rather than the shared Kraken snapshot.
+
+The dataset is used for exploratory data analysis, feature engineering, target construction, model training, validation, and testing. The final Optuna-tuned LightGBM regression model predicts MRI seven days ahead.
+
+The Student B FastAPI service separately retrieves live cryptocurrency data from the public Kraken API for inference.
+
+#### Reproducing Student B's Experiment
+
+1. Clone the repository and install the dependencies listed in `requirements.txt` using Python 3.12.
+2. Download the assignment-provided dataset ZIP file, `36120-26SP-AT3-dataset.zip`, from the course materials.
+3. Place the ZIP file in the location expected by Student B's notebook. Check the notebook's dataset-loading cell for the exact relative path.
+4. Open `notebooks/36120_26SP_AT3_group_12_student_26060133_experiment.ipynb` in JupyterLab or VS Code.
+5. Select the project's `.venv` Python kernel and run all notebook cells sequentially.
+
+The experiment generates the trained model and metadata files in `models/`, along with four visualisations in `reports/figures/`.
+
+**Expected final test-set performance:**
+
+| Metric | Value |
+|---|---|
+| RMSE | 9.4564 |
+| MAE | 7.5613 |
+| R² | 0.5399 |
+
+The assignment dataset ZIP file is not committed to the repository and must be obtained separately from the course materials.
+
 ## Running the notebooks
 
 ```bash
@@ -71,6 +100,10 @@ minutes in total (Optuna runs 60 trials). All models use `n_jobs=1` for reproduc
 |---|---|---|
 | D | `models/26059271/experiment_1/` | `tor_lgbm.joblib` (LightGBM model), `tor_metadata.json` (features, importance, labels, hyperparameters, test metrics) |
 | D | `models/tor_label_map.json` | fixed class id to label mapping |
+
+| B | `models/` | `student_b_mri_lightgbm.joblib` (final LightGBM regression model) |
+| B | `models/` | `student_b_mri_metadata.json` (model features, parameters and evaluation metrics) |
+
 
 ## Collaboration workflow
 

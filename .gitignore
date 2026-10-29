@@ -191,3 +191,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# Student B assignment-provided dataset (local only)
+36120-26SP-AT3-dataset.zip

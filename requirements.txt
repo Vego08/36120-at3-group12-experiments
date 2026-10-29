@@ -28,3 +28,6 @@ pytest
 
 # Used by the UTS notebook template
 utstd
+
+# Required for Student B statistical diagnostics
+statsmodels==0.15.0
