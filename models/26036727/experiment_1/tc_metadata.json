@@ -1,0 +1,82 @@
+{
+  "target": "Trend Category (TC)",
+  "description": "Trend Category of the token 7 days ahead, from TrendScore = 0.7*((MA5/MA20)-1) + 0.3*Return20",
+  "algorithm": "XGBoost Classifier",
+  "forecast_horizon": 7,
+  "features": [
+    "Return20",
+    "Return5",
+    "TrendStrength",
+    "TrendScore_now",
+    "Volatility20",
+    "MaxDrawdown"
+  ],
+  "api_input_features": [
+    "Return5",
+    "Return20",
+    "MA5",
+    "MA20",
+    "Volatility20",
+    "MaxPrice20",
+    "MaxDrawdown"
+  ],
+  "derived_features": {
+    "TrendStrength": "MA5 / MA20 - 1",
+    "TrendScore_now": "0.7 * TrendStrength + 0.3 * Return20"
+  },
+  "classification_labels": [
+    "Strong Downtrend",
+    "Downtrend",
+    "Sideways",
+    "Uptrend",
+    "Strong Uptrend"
+  ],
+  "class_thresholds": "TS < -0.10 | -0.10 <= TS < -0.02 | -0.02 <= TS <= 0.02 | 0.02 < TS <= 0.10 | TS > 0.10",
+  "feature_importance": {
+    "MaxDrawdown": 0.2903,
+    "TrendStrength": 0.207,
+    "Return20": 0.1648,
+    "Return5": 0.1324,
+    "TrendScore_now": 0.1161,
+    "Volatility20": 0.0895
+  },
+  "hyperparameters": {
+    "n_estimators": 450,
+    "max_depth": 2,
+    "learning_rate": 0.021432697093393266,
+    "min_child_weight": 4.727432515043772,
+    "subsample": 0.9418859381157068,
+    "colsample_bytree": 0.6375914643148616,
+    "gamma": 0.4207731276677733,
+    "reg_alpha": 0.5556683904991061,
+    "reg_lambda": 2.1268720933379592,
+    "class_weight": "none"
+  },
+  "training_data": {
+    "source": "Kraken public OHLC API (daily), snapshot kraken_ohlc_daily_20261022.csv",
+    "tokens": [
+      "BTC",
+      "ETH",
+      "XRP",
+      "SOL",
+      "DOGE",
+      "XMR",
+      "XLM",
+      "TRX"
+    ],
+    "start": "2024-11-21",
+    "end": "2026-05-29"
+  },
+  "test_metrics": {
+    "macro_f1": 0.4173,
+    "balanced_acc": 0.425,
+    "accuracy": 0.5279,
+    "log_loss": 1.1979,
+    "opposite_direction_rate": 0.1004
+  },
+  "missing_feature_handling": "trained with simulated feature-API outages (NaN); XGBoost default branches",
+  "library_versions": {
+    "xgboost": "3.3.0",
+    "scikit-learn": "1.6.1"
+  }
+}
