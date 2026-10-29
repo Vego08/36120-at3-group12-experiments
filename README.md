@@ -6,7 +6,7 @@
 |---|---|---|---|---|---|
 | A | _to fill_ | _to fill_ | Asset Performance Index (API) | XGBoost regression | _to fill_ |
 | B | _to fill_ | _to fill_ | Market Risk Index (MRI) | LightGBM regression | _to fill_ |
-| C | Lavil Saldanha | 26036727 | Trend Category (TC) | XGBoost classification | `notebooks/36120_26SP_AT3_group12_26036727_experiment.ipynb` |
+| C | _to fill_ | _to fill_ | Trend Category (TC) | XGBoost classification | _to fill_ |
 | D | Vedang Gosavi | 26059271 | Trading Opportunity Rating (TOR) | LightGBM classification | `notebooks/36120_26SP_AT3_group12_26059271_experiment.ipynb` |
 
 Related repositories: Streamlit front-end and four FastAPI services (one per student), listed in the
@@ -63,7 +63,7 @@ jupyter lab notebooks
 ```
 
 Select the `.venv` kernel and run all cells from the top. Student D's notebook takes about 5 to 10
-minutes in total (Optuna runs 60 trials); Student C's takes about 7 minutes (60 Optuna trials x 3 walk-forward folds). All models use `n_jobs=1` for reproducibility on Windows.
+minutes in total (Optuna runs 60 trials). All models use `n_jobs=1` for reproducibility on Windows.
 
 ## Model artefacts
 
@@ -71,7 +71,6 @@ minutes in total (Optuna runs 60 trials); Student C's takes about 7 minutes (60 
 |---|---|---|
 | D | `models/26059271/experiment_1/` | `tor_lgbm.joblib` (LightGBM model), `tor_metadata.json` (features, importance, labels, hyperparameters, test metrics) |
 | D | `models/tor_label_map.json` | fixed class id to label mapping |
-| C | `models/26036727/experiment_1/` | `tc_xgb.joblib` (XGBoost classifier), `tc_metadata.json` (features, importance, labels, hyperparameters, test metrics) |
 
 ## Collaboration workflow
 
